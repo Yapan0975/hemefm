@@ -1,0 +1,42 @@
+# @package _global_
+# End-to-end smoke test on REAL data (GSE37642 GPL96, 422 AML samples × 2,048 probes).
+# Uses the small architecture for fast iteration; production would use hemefm_base.
+defaults:
+  - override /model: hemefm_tiny
+  - override /data: pretrain
+  - override /trainer: default
+  - override /logger: wandb
+
+seed: 42
+mode: pretrain
+
+# Model adjusted to accommodate the real corpus vocab.
+# Tokenizer derives vocab from the parquet: 2,048 unique probes + 3 special tokens = 2,051.
+# Use 4096 to leave headroom for cross-cohort vocab unions.
+model:
+  vocab_size: 4096
+  max_seq_len: 2304            # CLS + 2048 features + padding headroom
+  n_bins: 16
+  d_model: 64
+  n_heads: 4
+  n_layers: 4
+  d_ff: 256
+  dropout: 0.1
+
+data:
+  batch_size: 8
+  num_workers: 0               # I/O is small (~0.5 MB parquet)
+  val_fraction: 0.05
+  max_seq_len: 2304
+  n_bins: 16
+
+trainer:
+  max_epochs: 2
+  log_every_n_steps: 10
+
+logger:
+  name: pretrain-real-gse37642
+  tags:
+    - hemefm
+    - real-data
+    - gse37642

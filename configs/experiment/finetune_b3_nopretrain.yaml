@@ -1,0 +1,39 @@
+# @package _global_
+# B3 — no-pretraining baseline (foundation-model isolation control)
+# Same hemefm_multimodal_base (173M) architecture; SAME data split (seed=42); SAME hyperparameters
+# Differs from finetune_v3 ONLY in pretrained_ckpt being null (random init at fine-tune start)
+defaults:
+  - override /model: hemefm_multimodal_base
+  - override /data: beataml_multimodal
+  - override /trainer: default
+  - override /logger: csv
+
+seed: 42
+mode: finetune
+weighting: kendall
+
+lr: 1e-4
+encoder_lr: 1e-5
+weight_decay: 0.05
+warmup_steps: 50
+unfreeze_after_step: 200
+
+# B3 KEY: NO pretrained checkpoint (model stays at random init)
+pretrained_ckpt: null
+
+data:
+  batch_size: 4
+  num_workers: 4
+  val_fraction: 0.20
+
+trainer:
+  devices: 2                        # GPUs 1 + 2 (set via CUDA_VISIBLE_DEVICES)
+  strategy: ddp_find_unused_parameters_true
+  max_epochs: 50
+  log_every_n_steps: 10
+  precision: bf16-mixed
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+
+logger:
+  name: finetune-b3-no-pretraining-2gpu

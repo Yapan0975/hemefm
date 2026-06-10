@@ -1,0 +1,42 @@
+# @package _global_
+# Phase 3' Production — 4× RTX 5090 DDP, hemefm_base 173M
+# Corpus v3: 2,557 RNA-seq patient transcriptomes
+defaults:
+  - override /model: hemefm_base
+  - override /data: pretrain
+  - override /trainer: default
+  - override /logger: csv
+
+seed: 42
+mode: pretrain
+
+model:
+  vocab_size: 4150
+  max_seq_len: 4200
+  n_bins: 16
+  d_model: 768
+  n_heads: 12
+  n_layers: 24
+  d_ff: 3072
+  dropout: 0.1
+  attention_dropout: 0.1
+
+data:
+  batch_size: 8                  # per-GPU; effective batch = 8 * 4 = 32
+  num_workers: 4
+  val_fraction: 0.05
+  mask_prob: 0.15
+  max_seq_len: 4200
+  n_bins: 16
+
+trainer:
+  devices: 4
+  strategy: ddp
+  max_epochs: 30
+  log_every_n_steps: 10
+  precision: bf16-mixed
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+
+logger:
+  name: pretrain-v3-base-ddp-2661samples

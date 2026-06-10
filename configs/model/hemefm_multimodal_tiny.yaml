@@ -1,0 +1,28 @@
+# Smoke-test multimodal model. Production = hemefm_multimodal.yaml.
+# Wraps a tiny RNA encoder with all 4 task heads + cross-attention fusion.
+# Designed to run on synthetic multimodal data for end-to-end pipeline check.
+
+defaults:
+  - hemefm_tiny@rna_encoder
+
+_target_: hemefm.models.multimodal.MultiModalHemeFM
+
+rna_encoder:
+  max_seq_len: 256       # match the synthetic data
+  d_model: 64
+  n_heads: 4
+  n_layers: 2
+  d_ff: 128
+
+cfg:
+  _target_: hemefm.models.multimodal.MultiModalConfig
+  n_subtypes: 8
+  n_eln_classes: 3
+  n_drugs: 122
+  n_mutation_genes: 200
+  n_variant_classes: 6
+  n_methylation_features: 5000
+  fusion_layers: 1
+  fusion_heads: 4
+  dropout: 0.1
+  freeze_rna_encoder: false

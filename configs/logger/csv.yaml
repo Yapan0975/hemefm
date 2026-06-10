@@ -1,0 +1,3 @@
+_target_: lightning.pytorch.loggers.CSVLogger
+save_dir: ${hydra:runtime.cwd}/logs
+name: ${oc.select:logger.name,run}

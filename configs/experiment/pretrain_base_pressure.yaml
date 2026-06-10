@@ -1,0 +1,49 @@
+# @package _global_
+# Pressure-test 75M HemeFM-base on the real GSE37642 GPL96 corpus.
+# Goal: verify (a) no OOM at batch=4×accum=8 on 1× 5090 (32 GB),
+#       (b) bf16 mixed-precision training is stable across 30 epochs,
+#       (c) measure real per-step wall-clock for production 200-epoch estimate.
+# Note: 422 samples × 75M params is dramatically over-parameterized — expect
+# rapid memorization and val loss divergence. That's the intended diagnostic.
+defaults:
+  - override /model: hemefm_base
+  - override /data: pretrain
+  - override /trainer: default
+  - override /logger: wandb
+
+seed: 42
+mode: pretrain
+
+model:
+  vocab_size: 4096          # plenty of headroom over the 2,051-token corpus vocab
+  max_seq_len: 2304         # CLS + 2048 features + padding headroom
+  d_model: 768
+  n_heads: 12
+  n_layers: 24
+  d_ff: 3072
+  dropout: 0.1
+  attention_dropout: 0.1
+
+data:
+  batch_size: 4             # conservative; accum will lift effective batch to 32
+  num_workers: 4
+  val_fraction: 0.05
+  max_seq_len: 2304
+  n_bins: 16
+
+trainer:
+  max_epochs: 30
+  precision: bf16-mixed
+  accumulate_grad_batches: 8       # effective batch = 32
+  log_every_n_steps: 20
+  gradient_clip_val: 1.0
+  enable_progress_bar: false       # cleaner log when running under nohup
+
+logger:
+  name: pretrain-base-pressure-30ep
+  tags:
+    - hemefm
+    - pressure-test
+    - base-75m
+    - gse37642
+    - real-data

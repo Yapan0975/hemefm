@@ -1,0 +1,26 @@
+# @package _global_
+# Smoke-test experiment — trains a tiny MFM transformer for 1 epoch on synthetic
+# rank-binned gene tokens. Should print [smoke-test PASS] in ~30-60 s on a single 5090.
+defaults:
+  - override /model: hemefm_tiny
+  - override /data: dummy
+  - override /trainer: default
+  - override /logger: wandb
+
+seed: 42
+
+trainer:
+  max_epochs: 1
+  log_every_n_steps: 5
+
+data:
+  n_train: 128
+  n_val: 32
+  batch_size: 16
+
+logger:
+  name: hello-world
+  tags:
+    - hemefm
+    - smoke-test
+    - hello-world

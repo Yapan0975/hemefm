@@ -1,0 +1,21 @@
+# Top-level Hydra config — composes other groups.
+# Override on the CLI with:
+#   uv run hemefm-train experiment=hello_world model=hemefm_tiny trainer.max_epochs=2
+defaults:
+  - _self_
+  - model: hemefm_tiny
+  - data: dummy
+  - trainer: default
+  - logger: wandb
+  - experiment: null      # null = pure default; CLI sets e.g. experiment=hello_world
+
+seed: 42
+ckpt_dir: ${hydra:runtime.output_dir}/checkpoints
+project_name: hemefm
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}

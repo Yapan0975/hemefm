@@ -1,0 +1,43 @@
+# @package _global_
+# Phase 3' — Production pretraining on corpus v3
+# Data: BeatAML 707 + TCGA-LAML 151 + TARGET-AML 1000 + GTEx-WB 803 = 2,661 patient transcriptomes
+# Hardware: 1× RTX 5090 (32 GB, sm_120 Blackwell), Plan A path
+# Model: hemefm_base (75M params, 24-layer, 768-dim, 12-head)
+defaults:
+  - override /model: hemefm_base
+  - override /data: pretrain
+  - override /trainer: default
+  - override /logger: csv
+
+seed: 42
+mode: pretrain
+
+# Model needs vocab_size to cover the corpus vocab (4096 genes + 3 special tokens = 4099).
+# We use 4150 to leave headroom.
+model:
+  vocab_size: 4150
+  max_seq_len: 4200            # CLS + 4096 features + padding
+  n_bins: 16
+  d_model: 768
+  n_heads: 12
+  n_layers: 24
+  d_ff: 3072
+  dropout: 0.1
+  attention_dropout: 0.1
+
+data:
+  batch_size: 16
+  num_workers: 4
+  val_fraction: 0.05
+  mask_prob: 0.15
+  max_seq_len: 4200
+  n_bins: 16
+
+trainer:
+  max_epochs: 30
+  log_every_n_steps: 10
+  precision: bf16-mixed         # Blackwell sm_120 native bf16
+  gradient_clip_val: 1.0
+
+logger:
+  name: pretrain-v3-2661samples

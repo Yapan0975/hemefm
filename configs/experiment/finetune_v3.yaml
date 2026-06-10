@@ -1,0 +1,39 @@
+# @package _global_
+# Phase 4' Production Finetune — 3-GPU DDP, multimodal_base, BeatAML 707 with real labels
+# Tasks: ELN-2022 risk (ordinal) + Overall Survival (Cox) + Drug Response (top-50) + Subtype (proxy 6-class)
+# Backbone: pretrained hemefm_base 173M ckpt from logs/pretrain-v3-base-ddp-2661samples
+defaults:
+  - override /model: hemefm_multimodal_base
+  - override /data: beataml_multimodal
+  - override /trainer: default
+  - override /logger: csv
+
+seed: 42
+mode: finetune
+weighting: kendall                  # 'kendall' | 'gradnorm' | 'equal'
+
+lr: 1e-4
+encoder_lr: 1e-5
+weight_decay: 0.05
+warmup_steps: 50
+unfreeze_after_step: 200            # layer-wise unfreeze begins here
+
+# Pretrained backbone checkpoint (full Lightning state, will be partially loaded)
+pretrained_ckpt: ${hydra:runtime.cwd}/logs/pretrain-v3-base-ddp-2661samples/version_0/checkpoints/epoch=29-step=2280.ckpt
+
+data:
+  batch_size: 4                     # per-GPU; 4 × 3 GPU = 12 effective
+  num_workers: 4
+  val_fraction: 0.20
+
+trainer:
+  devices: 3                        # GPU 0,1,2 (avoid GPU 3 stale process)
+  strategy: ddp_find_unused_parameters_true
+  max_epochs: 50
+  log_every_n_steps: 10
+  precision: bf16-mixed
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+
+logger:
+  name: finetune-v3-beataml707-3gpu

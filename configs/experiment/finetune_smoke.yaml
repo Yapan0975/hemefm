@@ -1,0 +1,26 @@
+# @package _global_
+# Smoke-test for the multi-modal multi-task fine-tuning pipeline.
+# Trains tiny model on synthetic multimodal data for 1 epoch; should complete
+# in <60 s on a single 5090 and produce non-NaN losses for all four tasks.
+defaults:
+  - override /model: hemefm_multimodal_tiny
+  - override /data: dummy_multimodal
+  - override /trainer: default
+  - override /logger: wandb
+
+seed: 42
+
+# Use a custom entrypoint variable so train.py knows to use FinetuneLightningModule.
+mode: finetune
+weighting: kendall                    # 'kendall' | 'gradnorm' | 'equal'
+
+trainer:
+  max_epochs: 1
+  log_every_n_steps: 4
+
+logger:
+  name: finetune-smoke
+  tags:
+    - hemefm
+    - smoke-test
+    - finetune

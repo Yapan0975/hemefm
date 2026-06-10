@@ -1,0 +1,39 @@
+# @package _global_
+# Phase 4'''' — Finetune with v4 batch-corrected backbone + corpus (Stage 2'' arm A)
+defaults:
+  - override /model: hemefm_multimodal_base
+  - override /data: beataml_multimodal
+  - override /trainer: default
+  - override /logger: csv
+
+seed: 42
+mode: finetune
+weighting: kendall
+
+lr: 1e-4
+encoder_lr: 1e-5
+weight_decay: 0.05
+warmup_steps: 50
+unfreeze_after_step: 200
+
+# v4 batch-corrected backbone
+pretrained_ckpt: ${hydra:runtime.cwd}/logs/pretrain-v4-combat-2gpu/version_0/checkpoints/epoch=29-step=1590.ckpt
+
+data:
+  corpus_parquet: ${hydra:runtime.cwd}/data/processed/pretrain_corpus_v4_combat.parquet
+  tokenizer_json: ${hydra:runtime.cwd}/data/processed/tokenizer_v4_combat.json
+  batch_size: 4
+  num_workers: 4
+  val_fraction: 0.20
+
+trainer:
+  devices: 2
+  strategy: ddp_find_unused_parameters_true
+  max_epochs: 50
+  log_every_n_steps: 10
+  precision: bf16-mixed
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+
+logger:
+  name: finetune-v4-combat-2gpu

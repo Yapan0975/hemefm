@@ -1,0 +1,16 @@
+# Tiny model for the hello-world smoke test (~0.5 M params, runs in <60 s on 1× 5090).
+# Production config will live in configs/model/hemefm_base.yaml (24L / 768d / 12h, ~75 M params).
+_target_: hemefm.models.transformer.HemeFMEncoder
+
+vocab_size: 2000      # ~17,000 protein-coding genes in production
+n_bins: 16            # rank-binned expression bins
+max_seq_len: 512      # 4,096 in production
+d_model: 64           # 768 in production
+n_heads: 4            # 12 in production
+n_layers: 4           # 24 in production
+d_ff: 256             # 4 × d_model
+dropout: 0.1
+attention_dropout: 0.1
+mask_token_id: 1
+pad_token_id: 0
+cls_token_id: 2

@@ -1,0 +1,14 @@
+# Weights & Biases logger.
+# Set WANDB_API_KEY in your environment or run `wandb login` before training.
+# Override entity / project on the CLI: logger.entity=myorg logger.project=hemefm-dev
+_target_: lightning.pytorch.loggers.WandbLogger
+
+project: hemefm
+entity: null                # set to your W&B team/user if applicable
+name: null                  # null => W&B auto-names; CLI override: logger.name=hello-001
+save_dir: ${hydra:runtime.output_dir}
+log_model: false            # set true once production checkpoints are stable
+offline: false              # offline=true for clusters without internet (sync later)
+tags:
+  - hemefm
+  - skeleton
