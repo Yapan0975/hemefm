@@ -1,10 +1,10 @@
 # HemeFM
 
-**An exploratory transductive benchmark: a pan-myeloid domain-pretrained Transformer with domain-adversarial training, evaluated against simple per-cohort-z-score PCA on cross-platform AML risk stratification.**
+**A transductive AML benchmark finds simple per-cohort-z-score PCA competitive with domain-adversarial HemeFM on single-cohort cross-platform risk stratification.**
 
 This repository is the executable companion to the manuscript:
 
-> *HemeFM: an exploratory transductive benchmark in which simple per-cohort-z-score PCA matches or exceeds a domain-adversarially trained pan-myeloid Transformer on single-cohort cross-platform AML risk stratification.*
+> *A transductive AML benchmark finds simple per-cohort-z-score PCA competitive with domain-adversarial HemeFM on single-cohort cross-platform risk stratification.*
 > Cuifang Hu, Ping Yang, Junqing Hu, Qihui Chu.
 
 It hosts the Hydra configs, model code, training pipelines, and analysis scripts behind every executed result reported in the manuscript, so that reviewers and readers can inspect and reproduce the findings.
@@ -18,10 +18,10 @@ The prospectively specified internal methods protocol is archived (as retrospect
 This is a pilot/benchmarking study, not a foundation-model success report. The executed evidence shows:
 
 1. **Pretraining converges** — Masked Feature Modeling on 2,557 pan-myeloid bulk RNA-seq transcriptomes reaches 44.8 % held-out 16-bin reconstruction accuracy (7.2 x chance).
-2. **Within-cohort comparisons are inconclusive and subject to model-selection bias** — on BeatAML 2.0 (n = 86 held-out), HemeFM (QWK 0.742) is point-estimate-favoured but statistically indistinguishable from both a fair-encoder_lr no-pretraining baseline (best QWK 0.571) and a PCA-64 + logistic-regression baseline (QWK 0.787). The same partition was used for hyperparameter/epoch selection and confidence-interval estimation, so these p-values are descriptive only.
+2. **Within-cohort comparisons are inconclusive and subject to model-selection bias** — on BeatAML 2.0 (n = 86 held-out), HemeFM (QWK 0.742) is point-estimate-favoured but inconclusive relative to (overlapping confidence intervals with) both a fair-encoder_lr no-pretraining baseline (best QWK 0.571) and a PCA-64 + logistic-regression baseline (QWK 0.787). The same partition was used for hyperparameter/epoch selection and confidence-interval estimation, so these p-values are descriptive only.
 3. **Naive cross-platform transfer fails** — the multimodal fine-tune collapses to QWK 0.000 (class-collapse) on the GSE6891 microarray cohort.
 4. **DANN partially recovers but does not reach threshold** — domain-adversarial fine-tuning (lambda = 0.1) lifts external QWK to 0.284, below the prospectively specified >= 0.55 threshold.
-5. **A simple per-cohort-z-score PCA baseline outperforms DANN externally** — PCA-64 + per-cohort z-score reaches QWK 0.545 [0.475, 0.610] on GSE6891, statistically significantly above DANN-HemeFM (patient-level paired bootstrap gap +0.260 [+0.176, +0.343], p < 0.001). **Important caveats**: both DANN and PCA-zscore are *transductive* (they use the target cohort's distribution); the PCA configuration was selected among three tested (raw / z-score / CORAL), so the bootstrap p-value does not correct for configuration selection; and there is only one external cohort. The PCA > DANN result is reported as an exploratory finding awaiting confirmation on a second held-out target cohort.
+5. **A simple per-cohort-z-score PCA baseline outperforms DANN externally** — PCA-64 + per-cohort z-score reaches QWK 0.545 [0.475, 0.610] on GSE6891, above DANN-HemeFM in this exploratory, post-selection comparison (patient-level paired bootstrap gap +0.260 [+0.176, +0.343], p < 0.001). **Important caveats**: both DANN and PCA-zscore are *transductive* (they use the target cohort's distribution); the PCA configuration was selected among three tested (raw / z-score / CORAL), so the bootstrap p-value does not correct for configuration selection; and there is only one external cohort. The PCA > DANN result is reported as an exploratory finding awaiting confirmation on a second held-out target cohort.
 
 See the manuscript (§4-§5) for the full evidentiary (EV1-EV8) and section-level (L1-L8) limitations.
 
@@ -80,7 +80,7 @@ Datasets are public and **not** redistributed in this repository:
 
 See manuscript §7 (Data and Code Availability) for exact access URLs, query strings, and access dates.
 
-Model checkpoints and per-step training metrics (`metrics.csv`) are archived at Zenodo (DOI to be minted from the GitHub release at acceptance).
+Model checkpoints and per-step training metrics (`metrics.csv`) are **not yet public**; they will be archived in a versioned Zenodo release upon manuscript acceptance (DOI minted from a tagged GitHub release). Source code, configs, and seeds in this repository are sufficient to re-run every experiment from the public datasets.
 
 ## Licence
 
