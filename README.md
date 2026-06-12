@@ -11,6 +11,8 @@ It hosts the Hydra configs, model code, training pipelines, and analysis scripts
 
 The prospectively specified internal methods protocol is archived (as retrospective archival documentation, not a pre-training timestamped pre-registration) at the Open Science Framework: **https://doi.org/10.17605/OSF.IO/ER2P5**.
 
+> **Submission snapshot & artifact status.** The tagged release [`v1.0-submission`](https://github.com/Yapan0975/hemefm/releases/tag/v1.0-submission) is the citable snapshot accompanying the manuscript. Source code, Hydra configs, random seeds, and the Dockerfile / environment specification are **public here under the MIT licence at submission**. Model **checkpoints and per-step training `metrics.csv` are *not yet public*** — they will be archived in a versioned **Zenodo** release **upon manuscript acceptance** (DOI minted from this tagged release). The repository therefore documents an *open code-and-configuration release*, not a code-and-weights release.
+
 ---
 
 ## What this study found (transparent negative result)
