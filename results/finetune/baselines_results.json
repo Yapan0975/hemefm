@@ -1,0 +1,30 @@
+{
+  "split_info": {
+    "train_n": 347,
+    "val_n": 86,
+    "val_fraction": 0.2,
+    "seed": 42
+  },
+  "B1_PCA_linear_probe": {
+    "baseline": "PCA+linear_probe",
+    "n_components": 64,
+    "eln_qwk": 0.7869333822719765,
+    "os_c_index": 0.6576217079010375,
+    "drug_spearman_mean": 0.2760915426603422,
+    "drug_spearman_n_drugs": 50
+  },
+  "B2_LSC17": {
+    "baseline": "LSC17",
+    "n_lsc17_genes_available": 11,
+    "missing_lsc17_genes": [
+      "ZBTB46",
+      "ARHGAP22",
+      "KIAA0125",
+      "NGFRAP1",
+      "AKR1C3",
+      "GPR56"
+    ],
+    "eln_qwk": 0.547548143736351,
+    "os_c_index": 0.5754189944134078
+  }
+}

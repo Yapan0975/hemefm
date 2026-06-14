@@ -11,7 +11,7 @@ It hosts the Hydra configs, model code, training pipelines, and analysis scripts
 
 The prospectively specified internal methods protocol is archived (as retrospective archival documentation, not a pre-training timestamped pre-registration) at the Open Science Framework: **https://doi.org/10.17605/OSF.IO/ER2P5**.
 
-> **Submission snapshot & artifact status.** The tagged release [`v1.0-submission`](https://github.com/Yapan0975/hemefm/releases/tag/v1.0-submission) is the citable snapshot accompanying the manuscript. Source code, Hydra configs, random seeds, and the Dockerfile / environment specification are **public here under the MIT licence at submission**. Model **checkpoints and per-step training `metrics.csv` are *not yet public*** — they will be archived in a versioned **Zenodo** release **upon manuscript acceptance** (DOI minted from this tagged release). The repository therefore documents an *open code-and-configuration release*, not a code-and-weights release.
+> **Submission snapshot & artifact status.** The tagged release [`v1.1-submission`](https://github.com/Yapan0975/hemefm/releases/tag/v1.1-submission) is the citable snapshot accompanying the manuscript. Source code, Hydra configs, random seeds, the Dockerfile / environment specification, **and the executed per-step `metrics.csv` plus per-patient prediction vectors ([`results/`](results/))** are **public here under the MIT licence at submission**. The trained model **checkpoints** (1.94 GB `hemefm_base`) are the only artefact deferred — they will be archived in a versioned **Zenodo** release **upon manuscript acceptance** (DOI minted from the tagged release). The repository therefore documents an *open code-and-configuration release with metrics and predictions*, not a code-and-weights release.
 
 ---
 
@@ -19,13 +19,13 @@ The prospectively specified internal methods protocol is archived (as retrospect
 
 This is a pilot/benchmarking study, not a foundation-model success report. The executed evidence shows:
 
-1. **Pretraining converges** — Masked Feature Modeling on 2,557 pan-myeloid bulk RNA-seq transcriptomes reaches 44.8 % held-out 16-bin reconstruction accuracy (7.2 x chance).
+1. **Pretraining produces stable above-chance reconstruction** — Masked Feature Modeling on 2,557 pan-myeloid bulk RNA-seq transcriptomes reaches 44.8 % held-out 16-bin reconstruction accuracy (7.2× chance) over the 30-epoch pilot; convergence is not claimed.
 2. **Within-cohort comparisons are inconclusive and subject to model-selection bias** — on BeatAML 2.0 (n = 86 held-out), HemeFM (QWK 0.742) is point-estimate-favoured but inconclusive relative to (overlapping confidence intervals with) both a fair-encoder_lr no-pretraining baseline (best QWK 0.571) and a PCA-64 + logistic-regression baseline (QWK 0.787). The same partition was used for hyperparameter/epoch selection and confidence-interval estimation, so these p-values are descriptive only.
 3. **Naive cross-platform transfer fails** — the multimodal fine-tune collapses to QWK 0.000 (class-collapse) on the GSE6891 microarray cohort.
 4. **DANN partially recovers but does not reach threshold** — domain-adversarial fine-tuning (lambda = 0.1) lifts external QWK to 0.284, below the prospectively specified >= 0.55 threshold.
 5. **A simple per-cohort-z-score PCA baseline outperforms DANN externally** — PCA-64 + per-cohort z-score reaches QWK 0.545 [0.475, 0.610] on GSE6891, above DANN-HemeFM in this exploratory, post-selection comparison (patient-level paired bootstrap gap +0.260 [+0.176, +0.343], p < 0.001). **Important caveats**: both DANN and PCA-zscore are *transductive* (they use the target cohort's distribution); the PCA configuration was selected among three tested (raw / z-score / CORAL), so the bootstrap p-value does not correct for configuration selection; and there is only one external cohort. The PCA > DANN result is reported as an exploratory finding awaiting confirmation on a second held-out target cohort.
 
-See the manuscript (§4-§5) for the full evidentiary (EV1-EV8) and section-level (L1-L8) limitations.
+See the manuscript (§4-§5) for the full evidentiary (EV1-EV8) and section-level (L1-L4) limitations.
 
 ---
 
@@ -82,7 +82,7 @@ Datasets are public and **not** redistributed in this repository:
 
 See manuscript §7 (Data and Code Availability) for exact access URLs, query strings, and access dates.
 
-Model checkpoints and per-step training metrics (`metrics.csv`) are **not yet public**; they will be archived in a versioned Zenodo release upon manuscript acceptance (DOI minted from a tagged GitHub release). Source code, configs, and seeds in this repository are sufficient to re-run every experiment from the public datasets.
+The executed per-step training metrics (`metrics.csv`) and per-patient prediction vectors are **public at submission** under [`results/`](results/) (also bundled in the `v1.1-submission` release). Only the trained model **checkpoints** (1.94 GB `hemefm_base`) are deferred — they will be archived in a versioned Zenodo release upon manuscript acceptance. Source code, configs, and seeds in this repository are sufficient to re-run every experiment from the public datasets.
 
 ## Licence
 

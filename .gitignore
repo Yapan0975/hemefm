@@ -92,3 +92,7 @@ desktop.ini
 *.key
 *.pem
 wandb_api_key.txt
+
+# --- Submission reproducibility bundle: track metrics/predictions despite *.csv / *.tsv rules above ---
+!results/
+!results/**

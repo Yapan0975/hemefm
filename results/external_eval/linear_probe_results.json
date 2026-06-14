@@ -1,0 +1,40 @@
+{
+  "model": "frozen hemefm_base 173M RNA encoder CLS + sklearn LogisticRegression",
+  "BeatAML2_val": {
+    "n": 86,
+    "eln_qwk": 0.4791770366683258,
+    "eln_acc": 0.5697674418604651,
+    "pred_dist": [
+      45,
+      8,
+      33
+    ],
+    "true_dist": [
+      33,
+      23,
+      30
+    ],
+    "spearman_expected_vs_true": 0.5729331040565617
+  },
+  "external_cohorts": {
+    "GSE6891": {
+      "n": 451,
+      "eln_qwk": 0.0,
+      "eln_acc": 0.5787139689578714,
+      "pred_dist": [
+        0,
+        451,
+        0
+      ],
+      "true_dist": [
+        97,
+        261,
+        93
+      ],
+      "spearman_expected_vs_true": -0.07685883464414033,
+      "auroc_class0": 0.5116197798357505,
+      "auroc_class1": 0.457390602944142,
+      "auroc_class2": 0.4265933801886226
+    }
+  }
+}
