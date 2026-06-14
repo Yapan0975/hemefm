@@ -1,0 +1,28 @@
+{
+  "paired_bootstrap_external_PCAz_vs_DANN": {
+    "n_samples": 451,
+    "n_boot": 5000,
+    "PCA_zscore_QWK": 0.5445886853162413,
+    "PCA_zscore_CI": [
+      0.474802238548148,
+      0.6099886860333994
+    ],
+    "DANN_QWK": 0.28421273282625625,
+    "DANN_CI": [
+      0.2029239885533886,
+      0.36023191846302177
+    ],
+    "PCA_minus_DANN_gap": 0.260375952489985,
+    "gap_CI": [
+      0.17550443222334408,
+      0.34256985689658226
+    ],
+    "p_value_two_sided": 0.0
+  },
+  "discriminator_interpretation": {
+    "training_logged_val_acc": 0.0,
+    "interpretation": "accuracy = 0.000 on binary domain task means discriminator predicts opposite of true label perfectly; this implies the encoder retains platform-discriminative features (the inversion is consistent with GRL training dynamics). Platform invariance is NOT established by this metric.",
+    "balanced_accuracy_implied": 0.0,
+    "full_AUC_recompute": "pending \u2014 requires CLS embedding extraction + discriminator forward pass; deferred to v25 nested CV pipeline"
+  }
+}
