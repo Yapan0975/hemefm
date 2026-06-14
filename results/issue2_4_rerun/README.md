@@ -18,3 +18,10 @@ recomputes HemeFM's per-drug-mean Spearman (the metric PCA reports) on the 72 va
 - `hemefm_drug_spearman_val.json` — HemeFM drug Spearman **0.11** (vs PCA 0.276; both < 0.40).
 
 `pca_external_results.json` and `v25_phase1_results.json` are the original (433-patient) outputs, retained for provenance.
+
+## Update (verification re-review): label-blind 537-sample target normalization
+`scripts/rerun_issue2_v2.py` recomputes the PCA target z-score over **all 537** GSE6891 samples
+(label-blind, matching DANN's adaptation), then evaluates the 451 labeled patients. The headline is
+unchanged: PCA-z-score(347, 537-norm) external QWK **0.462 [0.387, 0.534]** vs DANN 0.284 [0.203, 0.360],
+paired nonparametric-bootstrap gap **+0.178 [+0.081, +0.274]**.
+- `issue2_pca347_537norm_results.json`, `pca_zscore_347_537norm_predictions.tsv`.
