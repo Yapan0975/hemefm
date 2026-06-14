@@ -1,6 +1,6 @@
 # HemeFM — submission reproducibility bundle
 
-This directory holds the **fixed, executed metrics and per-patient prediction vectors** behind every number in §4 of the manuscript, published **at submission** so reviewers can verify the reported results without re-running training. The trained model **checkpoints** (1.94 GB `hemefm_base`; 5.6 MB `hemefm_tiny`) are the only artefacts deferred to a **Zenodo** archive at acceptance.
+This directory holds the **fixed, executed metrics and per-patient prediction vectors** behind the reported §4 outputs of the manuscript — the pretraining curves, the fine-tune and baseline metrics, and the DANN / configuration external predictions — published **at submission** so reviewers can audit and verify those reported outputs without re-running training. The PCA-baseline predictions, the patient-level paired bootstrap, and the B3 learning-rate-sweep trajectories are **not** bundled here but regenerate from the public `scripts/`. The trained model **checkpoints** (1.94 GB `hemefm_base`; 5.6 MB `hemefm_tiny`) are the only artefacts deferred to a **Zenodo** archive at acceptance.
 
 All files are verbatim run outputs; single seed = 42; PyTorch 2.10 + CUDA 12.8 + Lightning 2.6.5 on 4 × RTX 5090.
 

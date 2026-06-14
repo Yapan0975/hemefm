@@ -7,7 +7,7 @@ This repository is the executable companion to the manuscript:
 > *A transductive AML benchmark finds simple per-cohort-z-score PCA competitive with domain-adversarial HemeFM on single-cohort cross-platform risk stratification.*
 > Cuifang Hu, Ping Yang, Junqing Hu, Qihui Chu.
 
-It hosts the Hydra configs, model code, training pipelines, and analysis scripts behind every executed result reported in the manuscript, so that reviewers and readers can inspect and reproduce the findings.
+It hosts the Hydra configs, model code, training pipelines, and analysis scripts behind every executed result reported in the manuscript, so that reviewers and readers can inspect and audit the reported findings and re-run the full pipeline.
 
 The prospectively specified internal methods protocol is archived (as retrospective archival documentation, not a pre-training timestamped pre-registration) at the Open Science Framework: **https://doi.org/10.17605/OSF.IO/ER2P5**.
 
@@ -82,7 +82,7 @@ Datasets are public and **not** redistributed in this repository:
 
 See manuscript §7 (Data and Code Availability) for exact access URLs, query strings, and access dates.
 
-The executed per-step training metrics (`metrics.csv`) and per-patient prediction vectors are **public at submission** under [`results/`](results/) (also bundled in the `v1.1-submission` release). Only the trained model **checkpoints** (1.94 GB `hemefm_base`) are deferred — they will be archived in a versioned Zenodo release upon manuscript acceptance. Source code, configs, and seeds in this repository are sufficient to re-run every experiment from the public datasets.
+The executed per-step training metrics (`metrics.csv`) and per-patient prediction vectors are **public at submission** under [`results/`](results/) (also bundled in the `v1.1-submission` release). These cover the pretraining curves, the fine-tune and baseline metrics, and the DANN / configuration external predictions; the PCA-baseline predictions, the patient-level paired bootstrap, and the B3 learning-rate sweep are not bundled but regenerate from the scripts in `scripts/`. Only the trained model **checkpoints** (1.94 GB `hemefm_base`) are deferred — they will be archived in a versioned Zenodo release upon manuscript acceptance. Source code, configs, and seeds in this repository are sufficient to re-run every experiment from the public datasets.
 
 ## Licence
 
